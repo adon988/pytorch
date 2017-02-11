@@ -27,6 +27,8 @@ class ConvNd(Function):
         self.groups = groups
 
     def forward(self, input, weight, bias=None):
+        if not input.is_contiguous():
+            raise ValueError("Convolution input has to be contiguous")
         k = input.dim()
         self.save_for_backward(input, weight, bias)
         if k == 3:
